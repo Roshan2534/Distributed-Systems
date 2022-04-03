@@ -1,0 +1,90 @@
+version: '1'
+services:
+  web:
+    container_name: Web_Leader
+    build: ./messenger
+    ports:
+      - "4500:4500"
+    depends_on:
+      - db
+    environment:
+      - IS_LEADER=${IS_LEADER:-true}
+      - IS_Node1=${IS_Node1:-false}
+      - IS_Node2=${IS_Node2:-false}
+    networks:
+      - backend
+
+  db:
+    container_name: Mongo_Leader
+    image: mongo:latest
+    hostname: test_mongodb
+    volumes:
+      - ./data/dbmongo_master:/data/db
+    ports:
+      - 27017:27017
+    networks:
+      - backend
+
+  web_1:
+    container_name: Web_Node1
+    build: ./messenger
+    ports:
+      - "4600:4600"
+    depends_on:
+      - web
+      - db_1
+    environment:
+      - IS_LEADER=${IS_LEADER:-false}
+      - IS_Node1=${IS_Node1:-true}
+      - IS_Node2=${IS_Node2:-false}
+    networks:
+      - backend
+
+  db_1:
+    container_name: Mongo_Node1
+    image: mongo:latest
+    hostname: test_mongodb1
+    volumes:
+      - ./data/dbmongo1:/data/db
+    ports:
+      - 27000:27017
+    networks:
+      - backend
+
+
+  web_2:
+    container_name: Web_Node2
+    build: ./messenger
+    ports:
+      - "4700:4700"
+    depends_on:
+      - web
+      - web_1
+      - db_2
+    environment:
+      - IS_LEADER=${IS_LEADER:-false}
+      - IS_Node1=${IS_Node1:-false}
+      - IS_Node2=${IS_Node2:-true}
+    networks:
+      - backend
+
+  db_2:
+    container_name: Mongo_Node2
+    image: mongo:latest
+    hostname: test_mongodb2
+    volumes:
+      - ./data/dbmongo2:/data/db
+    ports:
+      - 26100:27017
+    networks:
+      - backend
+
+networks:
+  backend:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 10.10.0.0/24
+          gateway: 10.10.0.1
+
