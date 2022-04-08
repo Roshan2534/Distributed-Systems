@@ -12,9 +12,13 @@ services:
      environment:
        - IS_LEADER=${IS_LEADER:-false}
        - IS_Follower=${IS_Follower:-true}
-       - IS_Candidate=${IS_Node2:-false}
-       - Sender = $ {Sender:-Node1}
-       - Term = ${Term:- 0}
+       - IS_Candidate=${IS_Candidate:-false}
+       - IS_Node1=${IS_Node1:-true}
+       - IS_Node2=${IS_Node2:-false}
+       - IS_Node3=${IS_Node3:-false}
+       - IS_Node4=${IS_Node4:-false}
+       - IS_Node5=${IS_Node5:-false}
+
 
    node2:
      container_name: Node2
@@ -22,9 +26,12 @@ services:
      environment:
        - IS_LEADER=${IS_LEADER:-false}
        - IS_Follower=${IS_Follower:-true}
-       - IS_Candidate=${IS_Node2:-false}
-       - Sender = ${Sender:- Node2}
-       - Term = ${Term:- 0}
+       - IS_Candidate=${IS_Candidate:-false}
+       - IS_Node1=${IS_Node1:-false}
+       - IS_Node2=${IS_Node2:-true}
+       - IS_Node3=${IS_Node3:-false}
+       - IS_Node4=${IS_Node4:-false}
+       - IS_Node5=${IS_Node5:-false}
 
    node3:
        container_name: Node3
@@ -32,15 +39,45 @@ services:
        environment:
          - IS_LEADER=${IS_LEADER:-false}
          - IS_Follower=${IS_Follower:-true}
-         - IS_Candidate=${IS_Node2:-false}
-         - Sender = ${Sender:-Node3}
-         - Term = ${Term:- 0}
+         - IS_Candidate=${IS_Candidate:-false}
+         - IS_Node1=${IS_Node1:-false}
+         - IS_Node2=${IS_Node2:-false}
+         - IS_Node3=${IS_Node3:-true}
+         - IS_Node4=${IS_Node4:-false}
+         - IS_Node5=${IS_Node5:-false}
+
+   node4:
+     container_name: Node4
+     build: Node/.
+     environment:
+       - IS_LEADER=${IS_LEADER:-false}
+       - IS_Follower=${IS_Follower:-true}
+       - IS_Candidate=${IS_Candidate:-false}
+       - IS_Node1=${IS_Node1:-false}
+       - IS_Node2=${IS_Node2:-false}
+       - IS_Node3=${IS_Node3:-false}
+       - IS_Node4=${IS_Node4:-true}
+       - IS_Node5=${IS_Node5:-false}
+
+   node5:
+     container_name: Node5
+     build: Node/.
+     environment:
+       - IS_LEADER=${IS_LEADER:-false}
+       - IS_Follower=${IS_Follower:-true}
+       - IS_Candidate=${IS_Candidate:-false}
+       - IS_Node1=${IS_Node1:-false}
+       - IS_Node2=${IS_Node2:-false}
+       - IS_Node3=${IS_Node3:-false}
+       - IS_Node4=${IS_Node4:-false}
+       - IS_Node5=${IS_Node5:-true}
+
 
    #Do not change the part below
-   controller:
-       container_name: Controller
-       build: Controller/.
-       stdin_open: true
+#   controller:
+#       container_name: Controller
+#       build: Controller/.
+#       stdin_open: true
 
 
 
