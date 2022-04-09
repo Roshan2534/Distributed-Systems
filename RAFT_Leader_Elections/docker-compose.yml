@@ -74,10 +74,10 @@ services:
 
 
    #Do not change the part below
-#   controller:
-#       container_name: Controller
-#       build: Controller/.
-#       stdin_open: true
+   controller:
+       container_name: Controller
+       build: Controller/.
+       stdin_open: true
 
 
 
